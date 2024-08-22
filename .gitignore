@@ -48,3 +48,4 @@ Thumbs.db
 # Configuración de ambiente local
 .env
 .env.local
+

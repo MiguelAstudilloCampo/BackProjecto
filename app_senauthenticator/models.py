@@ -19,7 +19,6 @@ tipo_rol=[
     ('Administrador','Administrador'),
     ('Funcionario','Funcionario'),
     ('Guardia de seguridad','Guardia de seguridad'),
-    ('Usuario','Usuario'),
 ]
 
 jornada_ficha=[
@@ -62,7 +61,7 @@ class Usuario(AbstractUser):
     tipo_documento_usuario=models.CharField(max_length=50, choices=tipo_documento_usuario, default='Cedula de ciudadania', db_column='tipo_documento_usuario')
     numero_documento_usuario=models.CharField(max_length=20, unique=True, db_column='numero_documento_usuario')
     genero_usuario=models.CharField(max_length=9, choices=genero, db_column='genero_usuario')  
-    rol_usuario = models.CharField(max_length=20, choices=tipo_rol, default='Usuario', db_column='rol_usuario') 
+    rol_usuario = models.CharField(max_length=20, choices=tipo_rol, default='Aprendiz', db_column='rol_usuario') 
     ficha_usuario=models.ForeignKey(Ficha, on_delete=models.PROTECT, null=True, db_column='ficha_usuario')
     # nombre_usuario=models.CharField(max_length=50, db_column='nombre_usuario')
     # apellidos_usuario=models.CharField(max_length=50, db_column='apellidos_usuario')

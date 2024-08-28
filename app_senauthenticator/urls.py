@@ -1,11 +1,13 @@
 from django.urls import path
-from app_senauthenticator.controllers import programa, ficha, usuario, registro_facial, objeto, ingreso, tutor
+from app_senauthenticator.controllers import programa, ficha, usuario, registro_facial, objeto, ingreso, tutor, oficina
 # from app_senauthenticator.controllers.autenticacion_facial import AutenticacionFacial
 from django.conf import settings
 from django.conf.urls.static import static
 
 
 urlpatterns = [
+    path('oficina/<int:pk>/', oficina.oficina_controlador),
+    path('oficina/', oficina.oficina_controlador),
     path('programa/', programa.programa_controlador),
     path('programa/<int:pk>/', programa.programa_controlador),
     path('ficha/', ficha.ficha_controlador),

@@ -17,7 +17,7 @@ tipo_rol=[
     ('Aprendiz','Aprendiz'),
     ('Instructor','Instructor'),
     ('Administrador','Administrador'),
-    ('Funcionario','Funcionario'),
+    ('Usuario','Usuario'),
     ('Guardia de seguridad','Guardia de seguridad'),
 ]
 
@@ -75,6 +75,11 @@ class Usuario(AbstractUser):
     def __str__(self) -> str:
         return self.numero_documento_usuario
 
+class Oficina(models.Model):
+    nombre_oficina=models.CharField(max_length=40, db_column='nombre_oficina')
+
+    def __str__(self) -> str:
+        return f'{self.nombre_oficina}'
 
 class RegistroFacial(models.Model):
     datos_biometricos_registro=models.ImageField(upload_to=f'datos_biometricos_registro', db_column='datos_biometricos_registro')

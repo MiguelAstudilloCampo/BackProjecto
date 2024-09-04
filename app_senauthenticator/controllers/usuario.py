@@ -6,6 +6,7 @@ from rest_framework import status # Decorador para usar códigos de estado HTTP
 from rest_framework.authtoken.models import Token # Se importa el modelo Token de DRF
 from rest_framework.authentication import TokenAuthentication # Decorador para generar un Token de autenticación
 from rest_framework. permissions import IsAuthenticated # Decorador para confirmar una autenticación
+from datetime import timedelta
 
 
 @api_view(['GET', 'POST', 'PUT', 'DELETE']) # Se especifica las solicitudes HTTP que va a manejar el controlador
@@ -77,25 +78,57 @@ def usuario_controlador(request, pk=None): # La función contiene dos parámetro
                 return Response({'error': str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
             
 
-@api_view(['POST']) # Se utiliza el método POST para enviar las credenciales del usuario al servidor 
+# @api_view(['POST']) # Se utiliza el método POST para enviar las credenciales del usuario al servidor 
+# def inicio_sesion(request):
+#     try:        
+#         user = Usuario.objects.get(numero_documento_usuario=request.data['numero_documento_usuario']) # Se obtiene el usuario mediante el número de documento
+        
+#         # Si la contraseña es inválida
+#         if not user.check_password(request.data['password']): # La función check_password() compara un string con un dato encriptado, en este caso la contraseña recien ingresada, con la contraseña encriptada guardada en la base de datos
+#             return Response({'error': 'Contraseña inválida.'}, status=status.HTTP_400_BAD_REQUEST)
+        
+#         # Si la contraseña es válida
+#         token, created = Token.objects.get_or_create(user=user) # Se obtiene un token existente, si no existe se crea
+#         serializer = UsuarioSerializer(instance=user) # Se serializa los datos del usuario
+#         return Response({'token': token.key, 'user': serializer.data}, status=status.HTTP_200_OK)
+
+#     except Usuario.DoesNotExist: # Si el usuario no existe
+#         return Response({'error': 'Debe registrarse.'}, status=status.HTTP_404_NOT_FOUND)
+#     except Exception as e:
+#         return Response({'error': str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)        
+
+@api_view(['POST'])
 def inicio_sesion(request):
     try:        
         user = Usuario.objects.get(numero_documento_usuario=request.data['numero_documento_usuario']) # Se obtiene el usuario mediante el número de documento
         
         # Si la contraseña es inválida
-        if not user.check_password(request.data['password']): # La función check_password() compara un string con un dato encriptado, en este caso la contraseña recien ingresada, con la contraseña encriptada guardada en la base de datos
+        if not user.check_password(request.data['password']):
             return Response({'error': 'Contraseña inválida.'}, status=status.HTTP_400_BAD_REQUEST)
         
         # Si la contraseña es válida
-        token, created = Token.objects.get_or_create(user=user) # Se obtiene un token existente, si no existe se crea
-        serializer = UsuarioSerializer(instance=user) # Se serializa los datos del usuario
-        return Response({'token': token.key, 'user': serializer.data}, status=status.HTTP_200_OK)
+        token, created = Token.objects.get_or_create(user=user)
+        serializer = UsuarioSerializer(instance=user)
 
-    except Usuario.DoesNotExist: # Si el usuario no existe
+        response = Response({'user': serializer.data}, status=status.HTTP_200_OK)
+
+        # Añadir el token a las cookies
+        response.set_cookie(
+            key='auth_token',
+            value=token.key,
+            httponly=False,
+            secure=True,  # Cambia a False si estás en desarrollo y usas HTTP
+            samesite='none',  # Cambia a 'None' si el frontend y backend están en dominios diferentes
+            max_age=3600,  # Expira en 1 hora (3600 segundos)
+)
+
+        return response
+
+    except Usuario.DoesNotExist:
         return Response({'error': 'Debe registrarse.'}, status=status.HTTP_404_NOT_FOUND)
     except Exception as e:
-        return Response({'error': str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)        
-                
+        return Response({'error': str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
 
 @api_view(['GET']) # Se utiliza el método GET para recibir las credenciales del usuario 
 @authentication_classes([TokenAuthentication]) # Se utiliza autenticación por token

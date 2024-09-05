@@ -107,20 +107,20 @@ def inicio_sesion(request):
             return Response({'error': 'Contraseña inválida.'}, status=status.HTTP_400_BAD_REQUEST)
         
         # Si la contraseña es válida
-        token, created = Token.objects.get_or_create(user=user)
+        # token, created = Token.objects.get_or_create(user=user)
         serializer = UsuarioSerializer(instance=user)
 
         response = Response({'user': serializer.data}, status=status.HTTP_200_OK)
 
         # Añadir el token a las cookies
-        response.set_cookie(
-            key='auth_token',
-            value=token.key,
-            httponly=False,
-            secure=True,  # Cambia a False si estás en desarrollo y usas HTTP
-            samesite='none',  # Cambia a 'None' si el frontend y backend están en dominios diferentes
-            max_age=3600,  # Expira en 1 hora (3600 segundos)
-)
+#         response.set_cookie(
+#             key='auth_token',
+#             value=token.key,
+#             httponly=False,
+#             secure=True,  # Cambia a False si estás en desarrollo y usas HTTP
+#             samesite='none',  # Cambia a 'None' si el frontend y backend están en dominios diferentes
+#             max_age=3600,  # Expira en 1 hora (3600 segundos)
+# )
 
         return response
 

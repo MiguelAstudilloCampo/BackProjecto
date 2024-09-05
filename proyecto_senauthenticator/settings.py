@@ -92,18 +92,18 @@ DATABASES = {
 
 DATABASES['default']=dj_database_url.parse(config("DATABASE_URL"))
 
-CORS_ALLOW_CREDENTIALS = True
-CORS_ORIGIN_ALLOW_ALL = False
-CORS_ORIGIN_WHITELIST = (
-    'http://localhost:3000',
-)
+# CORS_ALLOW_CREDENTIALS = True
+# CORS_ORIGIN_ALLOW_ALL = False
+# CORS_ORIGIN_WHITELIST = (
+#     'http://localhost:3000',
+# )
 
-CSRF_TRUSTED_ORIGINS = [
-    'http://localhost:3000',
-    'https://backendsenauthenticator.onrender.com',
-    'https://backprojecto.onrender.com',
-    'https://senauthenticator.onrender.com',
-]
+# CSRF_TRUSTED_ORIGINS = [
+#     'http://localhost:3000',
+#     'https://backendsenauthenticator.onrender.com',
+#     'https://backprojecto.onrender.com',
+#     'https://senauthenticator.onrender.com',
+# ]
 
 # Password validation
 # https://docs.djangoproject.com/en/5.0/ref/settings/#auth-password-validators

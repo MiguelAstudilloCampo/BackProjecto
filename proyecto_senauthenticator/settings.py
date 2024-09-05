@@ -166,3 +166,9 @@ CORS_ALLOWED_ORIGINS = ['http://localhost:3000']
 REST_FRAMEWORK = {
     "DEFAULT_SCHEMA_CLASS": "rest_framework.schemas.coreapi.AutoSchema",
 } 
+
+EMAIL_HOST="smtp.gmail.com"
+EMAIL_PORT=465
+EMAIL_USE_SSL=True
+EMAIL_HOST_USER="destroyemacasta@gmail.com"
+EMAIL_HOST_PASSWORD="whxc aech qeyc ncfw"

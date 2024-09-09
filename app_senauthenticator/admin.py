@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import RegistroFacial, Programa, Ficha, Usuario, Objeto, Tutor, Ingreso,PasswordReset
+from .models import RegistroFacial, Programa, Ficha, Usuario, Objeto, Tutor, Ingreso, PasswordReset
 
 # Register your models here.
 admin.site.register(RegistroFacial)

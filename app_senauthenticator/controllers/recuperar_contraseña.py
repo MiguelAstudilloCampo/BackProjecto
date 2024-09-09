@@ -1,6 +1,5 @@
-from app_senauthenticator.models import Usuario,PasswordReset
 from django.shortcuts import render, redirect
-from django.contrib.auth.models import User
+from app_senauthenticator.models import Usuario,PasswordReset
 # from django.contrib.auth import authenticate, login, logout
 # from django.contrib.auth.decorators import login_required
 from django.contrib import messages
@@ -40,7 +39,7 @@ def ForgotPassword(request):
 
             return redirect('password-reset-sent', reset_id=new_password_reset.reset_id)
 
-        except User.DoesNotExist:
+        except Usuario.DoesNotExist:
             messages.error(request, f"Ningun usuario con este correo '{email}' encontrado")
             return redirect('forgot-password')
 

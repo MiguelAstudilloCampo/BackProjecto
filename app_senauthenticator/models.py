@@ -1,5 +1,6 @@
 from djongo import models
 from django.contrib.auth.models import AbstractUser
+import uuid
 
 
 tipo_documento_usuario=[
@@ -63,11 +64,6 @@ class Usuario(AbstractUser):
     genero_usuario=models.CharField(max_length=9, choices=genero, db_column='genero_usuario')  
     rol_usuario = models.CharField(max_length=20, choices=tipo_rol, default='Aprendiz', db_column='rol_usuario') 
     ficha_usuario=models.ForeignKey(Ficha, on_delete=models.PROTECT, null=True, db_column='ficha_usuario')
-    # nombre_usuario=models.CharField(max_length=50, db_column='nombre_usuario')
-    # apellidos_usuario=models.CharField(max_length=50, db_column='apellidos_usuario')
-    # correo_usuario=models.CharField(max_length=50, db_column='correo_personal_usuario') 
-    # password=models.CharField(max_length=30, db_column='contrasenia_usuario')
-    # username=models.CharField(max_length=30, db_column='username')
 
     USERNAME_FIELD = 'numero_documento_usuario' # se cambia el username por el numero_documento_usuario para poder autenticarse
     REQUIRED_FIELDS = ['username', 'email'] # campos requeridos al momento de crear un super usuario
@@ -116,3 +112,12 @@ class Tutor(models.Model):
 
     def __str__(self) -> str:
         return f'{self.nombre_tutor} {self.apellido_tutor}'
+
+
+class PasswordReset(models.Model):
+    usuario=models.ForeignKey(Usuario, on_delete=models.CASCADE, db_column='usuario')
+    reset_id=models.UUIDField(default=uuid.uuid4, unique=True, editable=False)
+    created_when=models.DateTimeField(auto_now_add=True)  # Corregido a DateTimeField
+    
+    def __str__(self):
+        return f"password reset for {self.usuario.username} with name {self.usuario.first_name} at {self.created_when}"

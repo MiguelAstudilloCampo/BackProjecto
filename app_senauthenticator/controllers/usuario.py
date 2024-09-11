@@ -8,18 +8,12 @@ from rest_framework.authentication import TokenAuthentication # Decorador para g
 from rest_framework. permissions import IsAuthenticated # Decorador para confirmar una autenticación
 from datetime import timedelta
 from django.shortcuts import render, redirect
-from django.contrib.auth.models import User
+
 # from django.contrib.auth import authenticate, login, logout
 # from django.contrib.auth.decorators import login_required
-from django.contrib import messages
-from django.conf import settings
-from django.core.mail import EmailMessage
-from django.utils import timezone
-from django.urls import reverse
 
 # ////////nuevas importaciones /////////
-from django.shortcuts import render, redirect
-from django.contrib.auth.models import User
+
 # from django.contrib.auth import authenticate, login, logout
 # from django.contrib.auth.decorators import login_required
 from django.contrib import messages
@@ -27,7 +21,7 @@ from django.conf import settings
 from django.core.mail import EmailMessage
 from django.utils import timezone
 from django.urls import reverse
-
+from django.views.decorators.csrf import csrf_exempt
 
 
 @api_view(['GET', 'POST', 'PUT', 'DELETE']) # Se especifica las solicitudes HTTP que va a manejar el controlador
@@ -164,36 +158,38 @@ def perfil(request):
         return Response({'error': str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
     
 # ///////////
+@csrf_exempt
 def ForgotPassword(request):
-
     if request.method == "POST":
         email = request.POST.get('email')
 
         try:
             user = Usuario.objects.get(email=email)
 
-            new_password_reset = PasswordReset(user=user)
+            new_password_reset = PasswordReset(usuario=user)
             new_password_reset.save()
 
-            password_reset_url = reverse('reset-password', kwargs={'reset_id': new_password_reset.reset_id})
+            # password_reset_url = reverse('reset-password', kwargs={'reset_id': new_password_reset.reset_id})
 
-            full_password_reset_url = f'{request.scheme}://{request.get_host()}{password_reset_url}'
+            full_password_reset_url = request.build_absolute_uri(reverse('reset-password', kwargs={'reset_id': new_password_reset.reset_id}))
 
             email_body = f'Reseta tu contraseña con este link:\n\n\n{full_password_reset_url}'
-        
+
             email_message = EmailMessage(
-                'Resete tu contraseña', # email subject
+                'Resete tu contraseña',  # email subject
                 email_body,
-                settings.EMAIL_HOST_USER, # email sender
-                [email] # email  receiver 
+                settings.EMAIL_HOST_USER,  # email sender
+                [email]  # email receiver
             )
 
+            print("Email message created:", email_message)
             email_message.fail_silently = True
             email_message.send()
+            print("Email sent successfully!")
 
             return redirect('password-reset-sent', reset_id=new_password_reset.reset_id)
 
-        except User.DoesNotExist:
+        except Usuario.DoesNotExist:
             messages.error(request, f"Ningun usuario con este correo '{email}' encontrado")
             return redirect('forgot-password')
 

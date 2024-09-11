@@ -24,12 +24,12 @@ urlpatterns = [
     path('ingreso/<int:pk>/', ingreso.ingreso_controlador),
     path('inicioSesion/', usuario.inicio_sesion),
     path('perfil/', usuario.perfil),
-    path('forgot-password/', recuperar_contraseña.ForgotPassword, name='forgot-password'),
-    path('password-reset-sent/<str:reset_id>/', recuperar_contraseña.PasswordResetSent, name='password-reset-sent'),
-    path('reset-password/<str:reset_id>/', recuperar_contraseña.ResetPassword, name='reset-password'),
-        path('forgot-password/', recuperar_contraseña.ForgotPassword, name='forgot-password'),
-    path('password-reset-sent/<str:reset_id>/', recuperar_contraseña.PasswordResetSent, name='password-reset-sent'),
-    path('reset-password/<str:reset_id>/', recuperar_contraseña.ResetPassword, name='reset-password'),
+    path('forgot-password/', usuario.ForgotPassword, name='forgot-password'),
+    path('password-reset-sent/<str:reset_id>/', usuario.PasswordResetSent, name='password-reset-sent'),
+    path('reset-password/<str:reset_id>/', usuario.ResetPassword, name='reset-password'),
+    # path('forgot-password/', recuperar_contraseña.ForgotPassword, name='forgot-password'),
+    # path('password-reset-sent/<str:reset_id>/', recuperar_contraseña.PasswordResetSent, name='password-reset-sent'),
+    # path('reset-password/<str:reset_id>/', recuperar_contraseña.ResetPassword, name='reset-password'),
     # path('autenticacionFacial/', AutenticacionFacial.as_view())
 ]
 

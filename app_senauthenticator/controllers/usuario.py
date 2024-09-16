@@ -158,6 +158,10 @@ def perfil(request):
         return Response({'error': str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
     
 # ///////////
+def Login(request):
+    return render(request, 'login.html')
+
+
 @csrf_exempt
 def ForgotPassword(request):
     if request.method == "POST":
@@ -232,7 +236,7 @@ def ResetPassword(request, reset_id):
                 password_reset_id.delete()
 
             if not passwords_have_error:
-                user = password_reset_id.user
+                user = password_reset_id.usuario
                 user.set_password(password)
                 user.save()
 

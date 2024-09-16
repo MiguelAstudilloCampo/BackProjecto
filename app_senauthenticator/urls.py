@@ -24,6 +24,7 @@ urlpatterns = [
     path('ingreso/<int:pk>/', ingreso.ingreso_controlador),
     path('inicioSesion/', usuario.inicio_sesion),
     path('perfil/', usuario.perfil),
+    path('login/', usuario.Login),
     path('forgotpassword/', usuario.ForgotPassword, name='forgot-password'),
     path('passwordresetsent/<str:reset_id>/', usuario.PasswordResetSent, name='password-reset-sent'),
     path('resetpassword/<str:reset_id>/', usuario.ResetPassword, name='reset-password'),

@@ -3,12 +3,12 @@
   <head>
     {% load static %}
     <meta charset="utf-8">
-    <title>Reset Password</title>
+    <title>Login</title>
     <link rel="stylesheet" href="{% static 'style.css' %}">
   </head>
   <body>
     <div class="center">
-      <h1>Reset Password</h1>
+      <h1>Login</h1>
 
       {% if messages %}
           {% for message in messages %}
@@ -25,20 +25,21 @@
         {% csrf_token %}
 
         <div class="txt_field">
+          <input type="text" required name="username">
+          <span></span>
+          <label>Username</label>
+        </div>
+
+        <div class="txt_field">
           <input type="password" required name="password">
           <span></span>
           <label>Password</label>
-        </div>    
+        </div>
 
-        <div class="txt_field">
-            <input type="password" required name="confirm_password">
-            <span></span>
-            <label>Confirm Password</label>
-        </div>    
-
-        <input type="submit" value="Reset Password">
+        <input type="submit" value="Login">
         <div class="signup_link">
-          Remember your password? 
+          Not a member? <a>Signup</a>
+          <p>Forgot your Password? <a >Reset Password</a></p> 
         </div>
       </form>
     </div>

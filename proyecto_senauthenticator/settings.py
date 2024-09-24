@@ -90,7 +90,7 @@ DATABASES = {
     },
 }
 
-DATABASES['default']=dj_database_url.parse(config("DATABASE_URL"))
+DATABASES['default']=dj_database_url.parse("postgresql://senauthenticator_db_9c5c_user:aGE65xoUeYsYciQ8Qrw9nfAN08Ybhyip@dpg-crovmqdds78s73d2h69g-a.oregon-postgres.render.com/senauthenticator_db_9c5c")
 
 CORS_ALLOW_CREDENTIALS = True
 CORS_ORIGIN_ALLOW_ALL = False
